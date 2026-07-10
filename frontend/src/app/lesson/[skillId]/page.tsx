@@ -9,7 +9,7 @@ export default async function LessonPage({ params }: { params: Promise<{ skillId
 
   let lesson = null;
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/lessons/${skillId}?user_id=${userId}`, { cache: 'no-store' })
+    const res = await fetch(`${process.env.INTERNAL_API_URL || 'http://127.0.0.1:8000/api'}/lessons/${skillId}?user_id=${userId}`, { cache: 'no-store' })
     if (res.ok) {
       lesson = await res.json()
     }

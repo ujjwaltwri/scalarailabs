@@ -22,7 +22,7 @@ export const TopBar = ({ className }: Props) => {
 
     const userId = Cookies.get("userId") || "0"
     if (userId !== "0") {
-      fetch(`http://127.0.0.1:8000/api/progress/user/${userId}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/user/${userId}`)
         .then(res => res.json())
         .then(user => {
           if (user) {

@@ -3,11 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 import models
 from database import engine
 from routers import path, lessons, progress, users, leaderboard
+from seed import seed as run_seed
 
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Duolingo Clone API")
+
+@app.on_event("startup")
+def startup_event():
+    run_seed()
+
 
 app.add_middleware(
     CORSMiddleware,

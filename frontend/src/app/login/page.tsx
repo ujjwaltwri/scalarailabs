@@ -19,7 +19,7 @@ export default function LoginPage() {
     setError("")
     
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/users/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: name, password: password })
@@ -80,7 +80,7 @@ export default function LoginPage() {
           </Button>
           
           <div className="flex justify-center mt-4">
-            <Link href="/register" className="text-slate-400 dark:text-slate-500 font-bold text-sm hover:text-slate-500 dark:hover:text-slate-400">
+            <Link href="/register` className="text-slate-400 dark:text-slate-500 font-bold text-sm hover:text-slate-500 dark:hover:text-slate-400">
               DON'T HAVE AN ACCOUNT?
             </Link>
           </div>
