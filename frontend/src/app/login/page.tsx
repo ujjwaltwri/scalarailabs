@@ -80,7 +80,7 @@ export default function LoginPage() {
           </Button>
           
           <div className="flex justify-center mt-4">
-            <Link href="/register` className="text-slate-400 dark:text-slate-500 font-bold text-sm hover:text-slate-500 dark:hover:text-slate-400">
+            <Link href="/register" className="text-slate-400 dark:text-slate-500 font-bold text-sm hover:text-slate-500 dark:hover:text-slate-400">
               DON'T HAVE AN ACCOUNT?
             </Link>
           </div>

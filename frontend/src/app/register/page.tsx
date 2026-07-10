@@ -32,7 +32,7 @@ function RegisterForm() {
         // After registration, send them to take the test
         router.push("/learn")
       } else {
-        console.error("Failed to register`)
+        console.error("Failed to register")
         setLoading(false)
       }
     } catch (error) {

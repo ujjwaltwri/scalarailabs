@@ -144,7 +144,7 @@ export const LessonClient = ({ lesson, userId }: { lesson: Lesson, userId: numbe
         }).then(res => {
           if (!res.ok && res.status === 404) {
              document.cookie = 'userId=; Max-Age=-99999999; path=/';
-             setTimeout(() => router.push("/register`), 2500)
+             setTimeout(() => router.push("/register"), 2500)
           }
         }).catch(err => console.error("Failed to save progress:", err))
       }
