@@ -24,16 +24,17 @@ export default async function LearnPage() {
   let units: UnitType[] = [];
   let totalXp = 0;
   try {
-    let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/path/${userId}`, { cache: 'no-store' });
+    const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    let res = await fetch(`${apiUrl}/path/${userId}`, { cache: 'no-store' });
     if (!res.ok && res.status === 404) {
-      res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/path/0`, { cache: 'no-store' });
+      res = await fetch(`${apiUrl}/path/0`, { cache: 'no-store' });
     }
     if (res.ok) {
       units = await res.json();
     }
     
     // Fetch XP data
-    const xpRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/user/${userId}`, { cache: 'no-store' });
+    const xpRes = await fetch(`${apiUrl}/progress/user/${userId}`, { cache: 'no-store' });
     if (xpRes.ok) {
       const xpData = await xpRes.json();
       totalXp = xpData.total_xp || 0;
