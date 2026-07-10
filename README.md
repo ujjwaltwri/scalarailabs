@@ -35,14 +35,19 @@ This application is configured for easy deployment to a single Google Cloud VM u
    cd scalarailabs
    mkdir -p data
    ```
-2. Run the Docker Compose stack:
+2. Give your user permission to run Docker without sudo (required for the CI/CD pipeline to work over SSH):
    ```bash
-   sudo docker compose up -d --build
+   sudo usermod -aG docker $USER
+   sudo chmod 666 /var/run/docker.sock
    ```
-3. Visit the VM's public IP address. *Note: The FastAPI backend will automatically seed the SQLite database on startup if it detects an empty database.*
+3. Run the Docker Compose stack:
+   ```bash
+   docker compose up -d --build
+   ```
+4. Visit the VM's public IP address. *Note: The FastAPI backend will automatically seed the SQLite database on startup if it detects an empty database.*
 
 ### CI/CD Pipeline
-The `.github/workflows/deploy.yml` action automatically connects via SSH and restarts the Docker containers whenever code is pushed to `main`. It requires three GitHub Repository Secrets: `GCP_SSH_PRIVATE_KEY`, `GCP_VM_IP`, and `GCP_VM_USERNAME`.
+The `.github/workflows/deploy.yml` action automatically connects via SSH and restarts the Docker containers whenever code is pushed to `main`. It requires three GitHub Repository Secrets: `GCP_SSH_PRIVATE_KEY`, `GCP_VM_IP`, and `GCP_VM_USERNAME`. Note that you must have configured the `usermod` step above for this to run successfully.
 
 ## Local Development Setup
 
