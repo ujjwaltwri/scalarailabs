@@ -203,7 +203,7 @@ export const LessonClient = ({ lesson, userId }: { lesson: Lesson, userId: numbe
         <OwlMascot mood="happy" className="w-48 h-48 mb-8 drop-shadow-xl" />
         <h1 className="text-4xl font-black text-[#58cc02] text-center mb-4">Lesson Complete!</h1>
         <p className="text-xl font-bold text-slate-500 dark:text-slate-400 text-center mb-12">You've earned 15 XP and maintained your streak.</p>
-        <Button size="lg" variant="primary" className="w-full max-w-[400px] hover:scale-105 transition-transform" onClick={() => router.push(userId === 0 ? "/register` : "/learn")}>
+        <Button size="lg" variant="primary" className="w-full max-w-[400px] hover:scale-105 transition-transform" onClick={() => router.push(userId === 0 ? "/register" : "/learn")}>
           CONTINUE
         </Button>
       </motion.div>

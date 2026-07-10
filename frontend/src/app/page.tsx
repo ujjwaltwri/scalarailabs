@@ -58,7 +58,7 @@ export default function Home() {
             <Link href="/login" className="w-full">
               <Button 
                 size="lg" 
-                variant="dangerOutline" 
+                variant="ghost" 
                 className="w-full h-14 text-lg bg-white dark:bg-[#131f24] hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 I ALREADY HAVE AN ACCOUNT
