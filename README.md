@@ -14,39 +14,41 @@ A functional clone of the Duolingo web application that replicates Duolingo's de
 - **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS, Framer Motion for animations.
 - **Backend**: Python 3, FastAPI, SQLAlchemy.
 - **Database**: SQLite (via SQLAlchemy ORM).
+- **Deployment**: Docker Compose, Nginx Reverse Proxy, Google Cloud Platform (Compute Engine).
 
 ## Architecture Overview
 
-The application follows a standard decoupled Client-Server architecture:
-1. **Frontend Application (Next.js)**: Responsible for rendering the UI, managing client-side state (hearts, gems, active lesson progress), and animating transitions. It makes RESTful HTTP calls to the backend.
-2. **Backend API (FastAPI)**: A lightweight Python web server that handles data persistence, progress tracking, and serves course content. It exposes REST endpoints for users, progress, and learning paths.
-3. **Database (SQLite)**: Stores relational data including user profiles, course structures (Units > Skills > Lessons > Exercises), and user progression tracking.
+The application follows a decoupled Client-Server architecture, containerized for production:
+1. **Frontend Application (Next.js)**: Responsible for rendering the UI, managing client-side state, and animating transitions.
+2. **Backend API (FastAPI)**: A lightweight Python web server that handles data persistence and serves course content.
+3. **Database (SQLite)**: Stores relational data including user profiles, course structures, and progress.
+4. **Nginx Proxy**: A reverse proxy container that serves the frontend on `/` and routes `/api/*` to the FastAPI backend, eliminating CORS issues and ensuring everything runs smoothly on a single origin.
 
-## Database Schema
+## Deployment & CI/CD (Google Cloud)
 
-The SQLite database consists of the following core tables:
+This application is configured for easy deployment to a single Google Cloud VM using Docker Compose. A GitHub Action is also included to provide automatic continuous deployment upon push.
 
-- `users`: Stores user profiles.
-  - `id` (PK), `username`, `password`, `total_xp`, `streak`, `hearts`, `last_activity_date`, `created_at`.
-- `units`: The top-level containers for the learning path.
-  - `id` (PK), `title`, `description`, `order`.
-- `skills`: The individual nodes on the learning path (e.g., "Basics 1", "Phrases").
-  - `id` (PK), `unit_id` (FK), `title`, `order`.
-- `lessons`: The actual sessions within a skill.
-  - `id` (PK), `skill_id` (FK), `order`.
-- `exercises`: The individual questions/challenges inside a lesson.
-  - `id` (PK), `lesson_id` (FK), `type` (String: multiple_choice, translate, etc.), `question_data` (JSON), `answer_data` (JSON).
-- `user_skill_progress`: Tracks which skills a user has unlocked or completed.
-  - `id` (PK), `user_id` (FK), `skill_id` (FK), `completed_lessons`, `status` (LOCKED, AVAILABLE, COMPLETED).
+### Cloud Deployment Instructions
+1. Clone the repository onto your VM:
+   ```bash
+   git clone https://github.com/ujjwaltwri/scalarailabs.git
+   cd scalarailabs
+   mkdir -p data
+   ```
+2. Run the Docker Compose stack:
+   ```bash
+   sudo docker compose up -d --build
+   ```
+3. Visit the VM's public IP address. *Note: The FastAPI backend will automatically seed the SQLite database on startup if it detects an empty database.*
 
-## Setup Instructions
+### CI/CD Pipeline
+The `.github/workflows/deploy.yml` action automatically connects via SSH and restarts the Docker containers whenever code is pushed to `main`. It requires three GitHub Repository Secrets: `GCP_SSH_PRIVATE_KEY`, `GCP_VM_IP`, and `GCP_VM_USERNAME`.
 
-### Prerequisites
-- Node.js (v18+)
-- Python (3.10+)
+## Local Development Setup
+
+If you prefer to run the application locally without Docker:
 
 ### 1. Backend Setup
-
 1. Navigate to the backend directory:
    ```bash
    cd backend
@@ -54,24 +56,18 @@ The SQLite database consists of the following core tables:
 2. Create and activate a Python virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate
    ```
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Seed the database (This will create `sql_app.db` and populate it with sample language content and users):
-   ```bash
-   python seed.py
-   ```
-5. Run the FastAPI development server:
+4. Run the FastAPI development server (it will auto-seed the database):
    ```bash
    uvicorn main:app --reload
    ```
-   The backend will be available at `http://127.0.0.1:8000`.
 
 ### 2. Frontend Setup
-
 1. Open a new terminal and navigate to the frontend directory:
    ```bash
    cd frontend
@@ -88,7 +84,7 @@ The SQLite database consists of the following core tables:
 
 ## Assumptions Made
 
-- **Authentication**: A simplified login/registration flow is used without JWT or secure session cookies. The `userId` is stored as a plain cookie for demonstration purposes, assuming a trusted local testing environment.
-- **Economy**: The "gems" economy is mocked in local storage to easily test the shop functionality without needing a complex backend transaction system.
-- **Course Content**: The app seeds a small, functional Spanish curriculum for demonstration. The system is designed to be easily extensible to other languages.
-- **Audio**: Text-to-speech leverages the browser's native `SpeechSynthesis` API, assuming the user is running a modern browser that supports it.
+- **Authentication**: A simplified login/registration flow is used without secure session cookies. The `userId` is stored as a plain cookie for demonstration purposes.
+- **Economy**: The "gems" economy is mocked in local storage to test shop functionality easily.
+- **Course Content**: The app seeds a functional Spanish curriculum for demonstration. 
+- **Audio**: Text-to-speech leverages the browser's native `SpeechSynthesis` API.
