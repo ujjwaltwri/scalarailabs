@@ -137,7 +137,7 @@ export const LessonClient = ({ lesson, userId }: { lesson: Lesson, userId: numbe
         // Anonymous user just finished the learning session, send them to register
         setTimeout(() => router.push("/register?finished_intro=true"), 2500)
       } else {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/lesson-complete`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/lesson-complete`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ user_id: userId, skill_id: lesson.skill_id, xp_earned: 15 })
@@ -262,7 +262,7 @@ export const LessonClient = ({ lesson, userId }: { lesson: Lesson, userId: numbe
       playSound("incorrect")
       setHearts(prev => Math.max(0, prev - 1))
       if (userId !== 0) {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/heart-lost`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/heart-lost`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ user_id: userId })

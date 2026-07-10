@@ -24,7 +24,7 @@ export default async function LearnPage() {
   let units: UnitType[] = [];
   let totalXp = 0;
   try {
-    const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || '/api';
     let res = await fetch(`${apiUrl}/path/${userId}`, { cache: 'no-store' });
     if (!res.ok && res.status === 404) {
       res = await fetch(`${apiUrl}/path/0`, { cache: 'no-store' });

@@ -20,7 +20,7 @@ export default function LeaderboardPage() {
       setCurrentUserId(parseInt(uidCookie.split('=')[1]))
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/leaderboard`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/leaderboard`)
       .then(res => res.json())
       .then(data => setUsers(data))
       .catch(err => console.error(err))

@@ -15,7 +15,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [soundEnabled, setSoundEnabled] = useState(true)
-  const [speakingEnabled, setSpeakingEnabled] = useState(true)
+  const [speakingEnabled, setSpeakingEnabled] = useState(false)
   const [darkModeEnabled, setDarkModeEnabled] = useState(false)
   // Load initial settings
   useEffect(() => {

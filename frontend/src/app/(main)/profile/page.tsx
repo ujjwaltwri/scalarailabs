@@ -20,7 +20,7 @@ export default function ProfilePage() {
 
   const fetchProfile = async (uid: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/user/${uid}`, { cache: 'no-store' });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/user/${uid}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setUser(data);
@@ -63,7 +63,7 @@ export default function ProfilePage() {
     localStorage.setItem("mock_gems", newGems.toString())
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/buy-heart`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/buy-heart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: parseInt(userId) })

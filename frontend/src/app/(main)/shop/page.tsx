@@ -21,7 +21,7 @@ export default function ShopPage() {
     const uid = Cookies.get("userId")
     if (uid && uid !== "0") {
       setUserId(parseInt(uid))
-      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/user/${uid}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/user/${uid}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.hearts !== undefined) {
@@ -94,7 +94,7 @@ export default function ShopPage() {
             if (spendGems(500)) {
               if (userId !== 0) {
                 try {
-                  await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/progress/refill-hearts`, {
+                  await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/progress/refill-hearts`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ user_id: userId })
