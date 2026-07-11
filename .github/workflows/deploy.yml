@@ -17,7 +17,10 @@ jobs:
           key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
           command_timeout: 30m
           script: |
+            set -e
             cd scalarailabs
             git pull origin main
+            docker system prune -af
             docker compose up -d --build
             docker compose restart nginx
+            docker compose ps
