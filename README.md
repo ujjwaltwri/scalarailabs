@@ -49,6 +49,28 @@ This application is configured for easy deployment to a single Google Cloud VM u
 ### CI/CD Pipeline
 The `.github/workflows/deploy.yml` action automatically connects via SSH and restarts the Docker containers whenever code is pushed to `main`. It requires three GitHub Repository Secrets: `GCP_SSH_PRIVATE_KEY`, `GCP_VM_IP`, and `GCP_VM_USERNAME`. Note that you must have configured the `usermod` step above for this to run successfully.
 
+## Database Schema
+
+The SQLite database is structured with the following key models:
+- **User**: Stores `username`, `total_xp`, `streak`, `hearts`, `gems`, `last_activity_date`, and relationships to `UserProgress` and `UserAchievement`.
+- **Unit**: Represents a logical grouping of skills.
+- **Skill**: Represents a specific topic (e.g., "Basics", "Phrases"). Has a `level` and a `required_skill_id` for unlocking.
+- **Lesson**: A lesson within a skill. Contains multiple `Exercise` records.
+- **Exercise**: An interactive task (e.g., `multiple_choice`, `translate`, `match_pairs`). Contains the `question`, `options` (JSON), and `correct_answer`.
+- **UserProgress**: Tracks which skills and lessons a user has completed.
+
+## API Overview
+
+The FastAPI backend exposes the following RESTful endpoints:
+- **GET /api/units**: Returns the full curriculum tree (Units -> Skills -> Lessons).
+- **GET /api/lesson/{lesson_id}**: Returns a lesson and its randomized exercises.
+- **POST /api/progress/lesson/{lesson_id}**: Submits lesson completion, awards XP, and tracks progress.
+- **GET /api/progress/user/{user_id}**: Retrieves user stats (XP, streak, hearts).
+- **POST /api/progress/heart/decrease**: Deducts a heart for incorrect answers.
+- **POST /api/progress/heart/refill**: Mocks heart regeneration/purchasing.
+- **GET /api/leaderboard**: Returns top users by XP.
+- **GET /api/achievements/{user_id}**: Retrieves a user's unlocked badges.
+
 ## Local Development Setup
 
 If you prefer to run the application locally without Docker:
