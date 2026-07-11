@@ -71,7 +71,7 @@ export default function Home() {
       {/* Decorative Bottom Wave (Optional, but looks nice for duolingo aesthetic) */}
       <div className="w-full h-[150px] bg-slate-100 dark:bg-[#18252a] flex items-center justify-center border-t-2 border-slate-200 dark:border-slate-800">
         <p className="text-slate-400 dark:text-slate-500 font-bold tracking-widest text-sm">
-          CLONE FOR SCALAR AI LABS ASSESMENT
+          CLONE FOR SCALER AI LABS ASSESMENT
         </p>
       </div>
     </div>
