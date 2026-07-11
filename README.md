@@ -44,7 +44,7 @@ This application is configured for easy deployment to a single Google Cloud VM u
    ```bash
    docker compose up -d --build
    ```
-4. Visit the VM's public IP address, or your custom domain if configured (e.g. `http://duolingo-ujjwal.duckdns.org`). *Note: The FastAPI backend will automatically seed the SQLite database on startup if it detects an empty database.*
+4. Visit the VM's public IP address `http://duolingo-ujjwal.duckdns.org`. *Note: The FastAPI backend will automatically seed the SQLite database on startup if it detects an empty database.*
 
 ### CI/CD Pipeline
 The `.github/workflows/deploy.yml` action automatically connects via SSH and restarts the Docker containers whenever code is pushed to `main`. It requires three GitHub Repository Secrets: `GCP_SSH_PRIVATE_KEY`, `GCP_VM_IP`, and `GCP_VM_USERNAME`. Note that you must have configured the `usermod` step above for this to run successfully.
